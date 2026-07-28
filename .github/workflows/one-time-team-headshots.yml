@@ -1,0 +1,48 @@
+name: One-time team headshot placeholders
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-team:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add team headshot placeholders directly
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          old_css = '.roster{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.roster span{border:1px solid #3a3a3a;padding:14px;background:#161616}'
+          new_css = '.roster{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.roster .teamMember{display:flex;align-items:center;gap:12px;min-height:66px;border:1px solid #3a3a3a;padding:10px 13px;background:#161616;transition:.25s ease}.roster .teamMember:hover{border-color:#665500;transform:translateY(-2px)}.teamAvatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;overflow:hidden;border:1px solid #665500;background:#111;display:grid;place-items:center;box-shadow:inset 0 0 0 2px #090909}.teamAvatar svg{width:100%;height:100%;display:block}.teamName{font-weight:800;letter-spacing:.01em}@media(max-width:650px){.roster .teamMember{min-height:60px;padding:8px 10px;gap:10px}.teamAvatar{width:40px;height:40px;flex-basis:40px}}'
+          if old_css in s:
+              s = s.replace(old_css, new_css, 1)
+
+          avatar = '<span class="teamAvatar" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#303030"/><stop offset="1" stop-color="#101010"/></linearGradient></defs><rect width="64" height="64" fill="url(#g)"/><circle cx="32" cy="23" r="11" fill="#858585"/><path d="M11 59c2-15 10-23 21-23s19 8 21 23" fill="#858585"/><path d="M12 58h40" stroke="#ffd21a" stroke-width="2"/></svg></span>'
+
+          roster = re.search(r'<div class="roster">(.*?)</div>', s, re.S)
+          if roster and 'class="teamMember"' not in roster.group(1):
+              names = re.findall(r'<span>([^<]+)</span>', roster.group(1))
+              replacement = '<div class="roster">' + ''.join(
+                  '<span class="teamMember">' + avatar + '<span class="teamName">' + name + '</span></span>'
+                  for name in names
+              ) + '</div>'
+              s = s[:roster.start()] + replacement + s[roster.end():]
+
+          p.write_text(s, encoding='utf-8')
+      - name: Commit website update and remove one-time workflow
+        run: |
+          rm .github/workflows/one-time-team-headshots.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/one-time-team-headshots.yml
+          git commit -m "Add replaceable team headshot placeholders [skip ci]"
+          git push

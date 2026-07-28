@@ -1,0 +1,50 @@
+name: Add team headshot placeholders
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add replaceable team avatars
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('website/index.html')
+          s = p.read_text()
+
+          # Add polished circular avatar styling beside each team member name.
+          css = '.roster .teamMember{display:flex;align-items:center;gap:12px;min-height:64px;padding:9px 13px}.teamAvatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;overflow:hidden;border:1px solid #5b4b00;background:linear-gradient(145deg,#2a2a2a,#111);display:grid;place-items:center;box-shadow:inset 0 0 0 2px #000,0 5px 16px #0006}.teamAvatar svg{width:100%;height:100%;display:block}.teamName{font-weight:800;letter-spacing:.01em}.teamMember:hover .teamAvatar{border-color:var(--gold);box-shadow:inset 0 0 0 2px #000,0 0 20px #ffd21a22}@media(max-width:650px){.roster .teamMember{min-height:58px;padding:8px 10px;gap:10px}.teamAvatar{width:40px;height:40px;flex-basis:40px}}'
+          marker = '.instagramSection{'
+          if '.roster .teamMember{' not in s:
+              s = s.replace(marker, css + marker, 1)
+
+          # Generic professional silhouette placeholder. Each can later be replaced
+          # with <img src="assets/team/name.jpg"> without changing the layout.
+          avatar = '<span class="teamAvatar" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" fill="#171717"/><circle cx="32" cy="23" r="12" fill="#777"/><path d="M11 58c2-14 10-22 21-22s19 8 21 22" fill="#777"/><path d="M12 58h40" stroke="#ffd21a" stroke-width="2"/></svg></span>'
+
+          roster_match = re.search(r'<div class="roster">(.*?)</div>', s, re.S)
+          if roster_match:
+              block = roster_match.group(1)
+              if 'class="teamMember"' not in block:
+                  block = re.sub(r'<span>([^<]+)</span>', lambda m: '<span class="teamMember">' + avatar + '<span class="teamName">' + m.group(1) + '</span></span>', block)
+                  s = s[:roster_match.start(1)] + block + s[roster_match.end(1):]
+
+          p.write_text(s)
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add website/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Add replaceable team headshot placeholders"
+          git push

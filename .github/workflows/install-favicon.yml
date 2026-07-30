@@ -1,0 +1,60 @@
+name: Install Northern Alliance favicon
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  install-favicon:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create favicon assets and update pages
+        shell: python
+        run: |
+          import base64
+          from pathlib import Path
+
+          assets = {
+              'favicon-16x16.png': 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVR42mNkZWX9z0ABYMEl8evXLwwxNjY2DDEmYjXjEmciVjMueSa8mi9LMzBclsZwOrI6JpxWXZZGaDgritX/uA1A0oxsCPEGkACwG6D7lDwDcPkTX3pgRE+JhKIR3RKKw4ARV16gKCkT43Tae4FYAACpvSfHwexeqwAAAABJRU5ErkJggg==',
+              'favicon-32x32.png': 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA5klEQVR42u1XyQ0DIQxcLKCDLSOv9F9CysgrHfDJvpA2LMeMBUFIyxfj8diDDcY5990mLtkmr+kBWM2hEEJxz3tP+TKMBmrA2kBkBDhjD2Ug5yzHELWjAkidIqllzkhv8JxdrRxWK6rw2n/3n5+LPaKDYglK7FPgS6CnQJAMCsO+BZ7aICXDryEAnivF31sxGug9jKgA2DbMnBN4mDzeFDDaxIRpQIjCzzbINbRsSy31hAjMDiT4PRAdt1ihdupbUBOWRqx2lLqX6QOG/Rcg7JmHafcMsK/i9WZBjSHLfk0R3p/T3usAHVhow8rOjCIAAAAASUVORK5CYII=',
+              'apple-touch-icon.png': 'iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFO0lEQVR42u3dS3KcSBRGYZlosQOvxPtfglfiHTDpHilaVkiqhErgPr4zVSgq6+bhJ18FP15fX/99AYqwKAEIDRAaIDRAaBAaIDRAaIDQAKFBaIDQAKEBQgOEBqEBQgOEBqbyjxLMY9u2Q/+3rqviTeKH3xReJy7RCd1KYIITurzE5CZ0aZGJTeiSIhOb0CVFJjahS4pM7KZCnynyUYkitonQzWQ+W5RMbSV0QpHvlqLCdyB0ABGiSVDt+xD6gs7P0unOjjQRultHE7uw0Ec6t0rHdv7ubyxkrtOhR75LtfX4Mgm9t2OqT4661mPReTXZ+x2rJPVCZlJXkjr1kGNPB3Q/tNOlVosOktaVknrRkaSuREqhRxOEzMdrkjWlFzKTupLUC5lJXUnqpWtHoWat0ghd/SdTat9IaEMNQ492Qw4yq10KoUeSgczXSJ0hpT1OF6UIfZYjazpvv3+OJ+OvP2pO6FiF3SNwBsGz1D2V0NGTYqbE0eTOnNJphb6roFeIHEHsrCkdUuiICXGHyHeKnTWlUwp9ZSEjiHyX2BlTeskmc7dUjtyuiOvS3oKVSOTP2hht2U9C773dnv3UzwQyX9XejDuwoYS++xaWTeYI7Y427EiV0GcmRlaZz25/tpR2lqOAzNW+h0lhxLvJwGSNgPMJsw5910L+LKlmrDZEakuEviktdFSZz1g2i9iuLJssbcfQUWWOlvbG0MbHUz/jiJidN1taJvQz6XW1LHs/r/vOoWW7BLKMfO76649t8CiTwisnHEfTOcQvST5pe6QjpREmhhI60W38YzskskmhC8wYuvdkMJo8ZCY0CA1pSGjApDDy+Hnm/7urSGhigNAgNEBogNAAoYFkQj86peUNWPfjJ1gAoQMlkkcMEDoyNkp64Dy0C0JCR5yUGHbUqn16ob08M/HdK1DftZoUHhk2SGlDDoDQkcdyYd5p8vvn5W3JtqkVSugrxmJHVyvulvr950caBkWb+6QbctyZGHeJ9NnnXpHWGY8ctBxDP7OmfPkt/8HnmbT+TdsXb0Z+nO6R9p3ynOqEL95s/Wrkig88/64927YN182rkQOnw3cd2eWVFB/r+eyRXS+vvyGlRzvxjHHoXS8N+upzv6vnx7pkTeeXl8CHk9Z1PTTLjjIzjzRZe1STt7+PShr5mELqVY73HbVt23DHXTm5uzQEnvgeb5Jm/3VQaKFHkmBvutyxYnGnzHsEzTzUKJHQs2+/WaV+tt2VTjqGF/rKlM4o9aNluk7pHHqVY0+x3xd6tBOHLpTAu3BDqyg7Jc26VJduyLGnkDOLHjWtZ8lccViSIqEfrlIcWEfd20kR0nrPBXZkCDFa38iU/JHs0TXsEZnuEHvvnaLzg3lSJfRXnfVZgpyR0lcn9uGz2wcneKO1JfTJUn+5pZ3okNOscfszF/Le8x6EPknqZ4Q+o+P2CD574vnMRTxSU2PoYmPpyKsjHmqZeKdw6vu/G4kwUrfMO4eLzqnBrIsye73Sn+WY1QEdUvpRrSpc/C0OJ1VPaWPnZkITo8/Qq8/zoYt2qHSW0KUEWde1xdiY0E06duSnZxIaLmJC62AQGiA0QGgQGiA0QGiA0AChURvv+v4EW8kSGiA0MJu0jzEw1Pgf51MkNAgNEBogNGBSCEhoEBoIjK3vL4i+Jm3tWUKD0AChAUIDhAYIjcrYKYSEBggNEBrYh63vQe7eCrfVLaFBaIDQAKEBQgOERidsfUNCA4QGCA0QGoQGCA0QGiA0QGgQGiA0QGiA0AChQWiA0AChAUIDhEYP/gNf/ZhiYKr0xwAAAABJRU5ErkJggg==',
+              'favicon-48x48.png': 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABUUlEQVR42u1ZyxGEIAxVRunASuy/BCuxg1x2L6vDIjAkPECdcFQT3suPBMd5nj/Dg5cZHr6UgBIoXFMNpUQUfWethe41oqpQCnRNMsUEJMCRRIoIxMCnAElkqhDwgUgAIHSYXuBDcpJwNL3Ao0iYnuARJKYalYO2JSyz7kl9khDKTmJXeQx8DDiHSM4+VVqJXPDcb5sQkABCkcgKoZRbc+OdkxecMII3c7H4Pp4fRFJ50Kwb9a2aAwoFvIoHuHGNIKMTmRJoNdDEShs3kWlb7nkSuwBDyew+R57EIg9cmjAhILvuF4tX80BKmaQc+jIS8OIQ+suB36YcEuepDLgQYM/ERHQSOMFL+yNPPqavya0EdzoLybrGaXIOIEZKV0ezWwlOlSr99vUnMbYbBVpWe6EW1kcUgW4eQF2K6TzwGgKckED+ZlIPvKaMqgeUgBLos74uPbcoI3whKAAAAABJRU5ErkJggg==',
+              'favicon.ico': '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',
+          }
+
+          for name, data in assets.items():
+              Path(name).write_bytes(base64.b64decode(data))
+
+          favicon_tags = '''<link rel="icon" href="/favicon.ico" sizes="any">
+          <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">'''
+
+          for page in Path('.').glob('*.html'):
+              text = page.read_text(encoding='utf-8')
+              if 'href="/favicon.ico"' in text:
+                  continue
+              marker = '<meta name="viewport" content="width=device-width,initial-scale=1">'
+              if marker in text:
+                  text = text.replace(marker, marker + '\n' + favicon_tags, 1)
+              else:
+                  text = text.replace('<head>', '<head>\n' + favicon_tags, 1)
+              page.write_text(text, encoding='utf-8')
+
+      - name: Commit favicon installation
+        run: |
+          git rm .github/workflows/install-favicon.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "Install Northern Alliance favicon [skip ci]"
+          git push

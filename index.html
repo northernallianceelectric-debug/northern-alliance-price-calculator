@@ -74,6 +74,23 @@ const reviewCards=[...document.querySelectorAll('.reviewCard')];let reviewIndex=
 <script>
 (function(){const button=document.querySelector('.menuToggle');const nav=document.querySelector('.nav');if(!button||!nav)return;function closeMenu(){nav.classList.remove('open');button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation menu');document.body.classList.remove('menuOpen')}button.addEventListener('click',function(){const opening=!nav.classList.contains('open');nav.classList.toggle('open',opening);button.setAttribute('aria-expanded',String(opening));button.setAttribute('aria-label',opening?'Close navigation menu':'Open navigation menu');document.body.classList.toggle('menuOpen',opening)});nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeMenu)});document.addEventListener('keydown',function(event){if(event.key==='Escape')closeMenu()});window.addEventListener('resize',function(){if(window.innerWidth>980)closeMenu()})})();
 </script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a,button').forEach(function(element){
+    if(element.textContent.trim()==='Request Service'){
+      element.addEventListener('click',function(){
+        if(typeof gtag==='function'){
+          gtag('event','request_service_click',{
+            button_text:'Request Service',
+            page_path:window.location.pathname,
+            link_url:element.href||''
+          });
+        }
+      });
+    }
+  });
+});
+</script>
 </body>
 </html>
 

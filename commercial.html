@@ -58,5 +58,22 @@
 <script>
 document.getElementById('commercialInquiry').addEventListener('submit',function(e){e.preventDefault();const d=new FormData(this);const body=['Name: '+d.get('name'),'Phone: '+d.get('phone'),'Email: '+d.get('email'),'','Commercial project details:',d.get('details')].join('\n');location.href='mailto:northernalliance.electric@gmail.com?subject='+encodeURIComponent('Commercial website quote request')+'&body='+encodeURIComponent(body);});
 </script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a,button').forEach(function(element){
+    if(element.textContent.trim()==='Request Service'){
+      element.addEventListener('click',function(){
+        if(typeof gtag==='function'){
+          gtag('event','request_service_click',{
+            button_text:'Request Service',
+            page_path:window.location.pathname,
+            link_url:element.href||''
+          });
+        }
+      });
+    }
+  });
+});
+</script>
 </body>
 </html>

@@ -1,8 +1,6 @@
 name: Portrait hero video update
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 permissions:

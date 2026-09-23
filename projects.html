@@ -54,7 +54,7 @@
 .serviceSubmenu{min-width:320px;max-width:360px;max-height:calc(100vh - 145px);overflow-y:auto;overscroll-behavior:contain}.serviceSubmenu a{white-space:normal;line-height:1.3}.serviceItem{scroll-margin-top:140px}@media(max-width:980px){.serviceSubmenu{max-width:none;max-height:none;overflow:visible}}
 
 .projectSection{display:block}
-.residentialGallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;margin:34px 0 0}
+.projectGallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;margin:34px 0 0}
 .projectPhoto{position:relative;display:block;width:100%;padding:0;border:1px solid #303030;background:#0a0a0a;overflow:hidden;aspect-ratio:3/4;cursor:zoom-in}
 .projectPhoto img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease,filter .45s ease}
 .projectPhoto:after{content:"View photo";position:absolute;left:14px;bottom:14px;padding:9px 12px;background:#090909df;border:1px solid #ffffff35;color:#fff;font:800 10px Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:0;transform:translateY(6px);transition:.25s ease}
@@ -70,8 +70,8 @@
 .lightboxPrev{left:22px}.lightboxNext{right:22px}
 .lightboxClose:hover,.lightboxPrev:hover,.lightboxNext:hover,.lightboxClose:focus-visible,.lightboxPrev:focus-visible,.lightboxNext:focus-visible{border-color:var(--gold);color:var(--gold);outline:0}
 .lightboxCounter{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:#ddd;font-size:12px;font-weight:800;letter-spacing:.08em}
-@media(max-width:980px){.residentialGallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:650px){.residentialGallery{grid-template-columns:1fr;gap:10px;margin-top:24px}.projectLightbox{padding:72px 12px}.lightboxPrev,.lightboxNext{top:auto;bottom:16px;width:46px;height:50px;transform:none}.lightboxPrev{left:14px}.lightboxNext{right:14px}.lightboxClose{right:14px;top:14px}.lightboxCounter{bottom:32px}}
+@media(max-width:980px){.projectGallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.projectGallery{grid-template-columns:1fr;gap:10px;margin-top:24px}.projectLightbox{padding:72px 12px}.lightboxPrev,.lightboxNext{top:auto;bottom:16px;width:46px;height:50px;transform:none}.lightboxPrev{left:14px}.lightboxNext{right:14px}.lightboxClose{right:14px;top:14px}.lightboxCounter{bottom:32px}}
 
 </style>
 </head>
@@ -86,24 +86,33 @@
   <div class="projectSections">
     <section class="projectSection" id="residential-projects" aria-labelledby="residential-projects-heading">
       <h2 id="residential-projects-heading">Residential</h2>
-      <div class="residentialGallery" aria-label="Residential project photo gallery">
-        <button class="projectPhoto" type="button" data-gallery-index="0" aria-label="Open residential project photo 1 of 6"><img src="assets/projects/residential/custom-home-lighting-01.webp" alt="Modern white kitchen with under-cabinet LED lighting and electrical outlets" loading="lazy" width="1200" height="1600"></button>
-        <button class="projectPhoto" type="button" data-gallery-index="1" aria-label="Open residential project photo 2 of 6"><img src="assets/projects/residential/custom-home-lighting-02.webp" alt="Kitchen range hood lighting and illuminated stone backsplash" loading="lazy" width="1200" height="1600"></button>
-        <button class="projectPhoto" type="button" data-gallery-index="2" aria-label="Open residential project photo 3 of 6"><img src="assets/projects/residential/custom-home-lighting-03.webp" alt="Recessed ceiling lights and under-cabinet lighting in a white kitchen" loading="lazy" width="1200" height="1600"></button>
-        <button class="projectPhoto" type="button" data-gallery-index="3" aria-label="Open residential project photo 4 of 6"><img src="assets/projects/residential/custom-home-lighting-04.webp" alt="Statement pendant light in a double-height residential entryway" loading="lazy" width="1200" height="1600"></button>
-        <button class="projectPhoto" type="button" data-gallery-index="4" aria-label="Open residential project photo 5 of 6"><img src="assets/projects/residential/custom-home-lighting-05.webp" alt="Recessed lighting above custom counter and cabinetry" loading="lazy" width="1200" height="1600"></button>
-        <button class="projectPhoto" type="button" data-gallery-index="5" aria-label="Open residential project photo 6 of 6"><img src="assets/projects/residential/custom-home-lighting-06.webp" alt="Brass wall sconce beside a bathroom mirror" loading="lazy" width="1200" height="1600"></button>
+      <div class="projectGallery" aria-label="Residential project photo gallery">
+        <button class="projectPhoto" type="button" data-gallery="residential" data-gallery-index="0" aria-label="Open residential project photo 1 of 6"><img src="assets/projects/residential/custom-home-lighting-01.webp" alt="Modern white kitchen with under-cabinet LED lighting and electrical outlets" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="residential" data-gallery-index="1" aria-label="Open residential project photo 2 of 6"><img src="assets/projects/residential/custom-home-lighting-02.webp" alt="Kitchen range hood lighting and illuminated stone backsplash" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="residential" data-gallery-index="2" aria-label="Open residential project photo 3 of 6"><img src="assets/projects/residential/custom-home-lighting-03.webp" alt="Recessed ceiling lights and under-cabinet lighting in a white kitchen" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="residential" data-gallery-index="3" aria-label="Open residential project photo 4 of 6"><img src="assets/projects/residential/custom-home-lighting-04.webp" alt="Statement pendant light in a double-height residential entryway" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="residential" data-gallery-index="4" aria-label="Open residential project photo 5 of 6"><img src="assets/projects/residential/custom-home-lighting-05.webp" alt="Recessed lighting above custom counter and cabinetry" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="residential" data-gallery-index="5" aria-label="Open residential project photo 6 of 6"><img src="assets/projects/residential/custom-home-lighting-06.webp" alt="Brass wall sconce beside a bathroom mirror" loading="lazy" width="1200" height="1600"></button>
       </div>
     </section>
     <section class="projectSection" id="commercial-projects" aria-labelledby="commercial-projects-heading">
       <h2 id="commercial-projects-heading">Commercial</h2>
+      <div class="projectGallery" aria-label="Commercial project photo gallery">
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="0" aria-label="Open commercial project photo 1 of 7"><img src="assets/projects/commercial/commercial-lighting-01.webp" alt="Restaurant bar with illuminated liquor shelving and LED accents" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="1" aria-label="Open commercial project photo 2 of 7"><img src="assets/projects/commercial/commercial-lighting-02.webp" alt="Modern pendant lighting above a commercial bar interior" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="2" aria-label="Open commercial project photo 3 of 7"><img src="assets/projects/commercial/commercial-lighting-03.webp" alt="Illuminated glassware display with integrated LED strip lighting" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="3" aria-label="Open commercial project photo 4 of 7"><img src="assets/projects/commercial/commercial-lighting-04.webp" alt="Floating wood shelves with under-shelf LED lighting in a hospitality space" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="4" aria-label="Open commercial project photo 5 of 7"><img src="assets/projects/commercial/commercial-lighting-05.webp" alt="Glass-enclosed wine rack with integrated architectural lighting" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="5" aria-label="Open commercial project photo 6 of 7"><img src="assets/projects/commercial/commercial-lighting-06.webp" alt="Commercial bar shelving illuminated with linear LED lighting" loading="lazy" width="1200" height="1600"></button>
+        <button class="projectPhoto" type="button" data-gallery="commercial" data-gallery-index="6" aria-label="Open commercial project photo 7 of 7"><img src="assets/projects/commercial/commercial-lighting-07.webp" alt="Illuminated custom sign above a dark commercial bar interior" loading="lazy" width="1200" height="1600"></button>
+      </div>
     </section>
     <section class="projectSection" id="industrial-projects" aria-labelledby="industrial-projects-heading">
       <h2 id="industrial-projects-heading">Industrial</h2>
     </section>
   </div>
 
-  <div class="projectLightbox" id="projectLightbox" role="dialog" aria-modal="true" aria-label="Residential project photo viewer" hidden>
+  <div class="projectLightbox" id="projectLightbox" role="dialog" aria-modal="true" aria-label="Project photo viewer" hidden>
     <button class="lightboxClose" type="button" aria-label="Close photo viewer">×</button>
     <button class="lightboxPrev" type="button" aria-label="Previous photo">‹</button>
     <img class="projectLightboxImage" src="" alt="">
@@ -138,25 +147,29 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <script>
 (function(){
-  const photos=Array.from(document.querySelectorAll('.projectPhoto'));
+  const allPhotos=Array.from(document.querySelectorAll('.projectPhoto'));
   const viewer=document.getElementById('projectLightbox');
-  if(!photos.length||!viewer)return;
+  if(!allPhotos.length||!viewer)return;
   const image=viewer.querySelector('.projectLightboxImage');
   const counter=viewer.querySelector('.lightboxCounter');
   const closeButton=viewer.querySelector('.lightboxClose');
+  let activePhotos=[];
   let current=0;
   let lastFocus=null;
   function show(index){
-    current=(index+photos.length)%photos.length;
-    const source=photos[current].querySelector('img');
+    current=(index+activePhotos.length)%activePhotos.length;
+    const source=activePhotos[current].querySelector('img');
     image.src=source.src;
     image.alt=source.alt;
-    counter.textContent=(current+1)+' / '+photos.length;
+    counter.textContent=(current+1)+' / '+activePhotos.length;
   }
-  function openViewer(index){
+  function openViewer(photo){
+    const gallery=photo.dataset.gallery;
+    activePhotos=allPhotos.filter(function(item){return item.dataset.gallery===gallery});
     lastFocus=document.activeElement;
-    show(index);
+    show(activePhotos.indexOf(photo));
     viewer.hidden=false;
+    viewer.setAttribute('aria-label',(gallery==='commercial'?'Commercial':'Residential')+' project photo viewer');
     document.body.style.overflow='hidden';
     closeButton.focus();
   }
@@ -166,7 +179,7 @@ document.addEventListener('DOMContentLoaded',function(){
     document.body.style.overflow='';
     if(lastFocus)lastFocus.focus();
   }
-  photos.forEach(function(photo,index){photo.addEventListener('click',function(){openViewer(index)})});
+  allPhotos.forEach(function(photo){photo.addEventListener('click',function(){openViewer(photo)})});
   closeButton.addEventListener('click',closeViewer);
   viewer.querySelector('.lightboxPrev').addEventListener('click',function(){show(current-1)});
   viewer.querySelector('.lightboxNext').addEventListener('click',function(){show(current+1)});
